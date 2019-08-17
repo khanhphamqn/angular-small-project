@@ -1,0 +1,10 @@
+<div class="sponsor-block">
+  <h6 class="mb-4">Customers</h6>
+  <div class="row">
+    <div *ngFor="let item of sponsorData; index as i;" class="col-lg-2 col-md-4 col-6">
+      <a href="{{item.link}}" class="d-block mb-2 h-100">
+        <img class="img-fluid" src="{{item.img}}" alt="">
+      </a>
+    </div>
+  </div>
+</div>

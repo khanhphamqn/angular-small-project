@@ -1,0 +1,101 @@
+<div class="container card-content">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">My Cart</li>
+  </ol>
+  <div class="shopping-cart">
+    <div class="row">
+      <div class="col-md-12 col-lg-9">
+        <div *ngFor="let items of myCart | async;" class="items mb-2">
+          <div class="item-header d-flex align-items-center">
+            <span class="mr-2">&nbsp;</span>
+            <h3 class="title">{{items.supplier}}</h3>
+          </div>
+          <div *ngFor="let item of items.data; last as isLast" class="product" [ngClass]="{'last': isLast}">
+            <div class="row">
+              <div class="col-md-2 d-flex align-items-center">
+                <img class="mx-auto d-block image"
+                  src="{{item.imgSrc}}">
+              </div>
+              <div class="col-md-3 d-flex align-items-center">
+                <div class="description">
+                  <span>{{item.title}}</span>
+                </div>
+              </div>
+              <div class="col-md-2 d-flex align-items-center">
+                <div class="cost">
+                  <sup class="fas fa-dollar-sign"></sup> <span class="weight"> {{item.price | currency: 'symbol': ''}}</span>
+                </div>
+              </div>
+              <div class="col-md-4 d-flex align-items-center">
+                <ul class="quantity">
+                  <li class="d-flex align-items-center list">
+                    <button (click)="remove(item)" class="btn minus" type="button" name="button">
+                      -
+                    </button>
+                    <input type="text" (change)="update(item)" class="form-control" name="name" [(ngModel)]="item.buy">
+                    <button (click)="add(item)" class="btn plus" type="button" name="button">
+                      +
+                    </button>
+                    <span>&nbsp;&nbsp;kg</span>
+                  </li>
+                  <li class="list">
+                    <p>&nbsp;&nbsp;(In-Stock : {{item.inStock}})</p>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-1 d-flex align-items-center">
+                <div class="buttons">
+                  <span (click)="onDelete(item)" class="fas fa-trash"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-lg-3">
+        <div class="summary">
+          <div class="summary-header">
+            <div class="row d-flex align-items-center">
+              <div class="col-6">
+                <p class="sub">Subtotal:</p>
+              </div>
+              <div class="col-6 text-right">
+                <div class="cost">
+                  <sup class="fas fa-dollar-sign"></sup> <span class="weight"> {{total | async}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="summary-body">
+            <div class="row">
+              <div class="col-6">
+                <p class="total">Total:</p>
+              </div>
+              <div class="col-6 text-right">
+                <div class="cost">
+                  <sup class="fas fa-dollar-sign"></sup> <span class="weight">  {{total | async}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="checkout-process">
+                  <button class="btn" type="submit">
+                    proceed to checkout
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-ajax-loading *ngIf="isFetching"></app-ajax-loading>
+  </div>
+</div>
+<div class="container-fluid wrapper-sponsor">
+  <div class="container">
+    <app-sponsor></app-sponsor>
+  </div>
+</div>

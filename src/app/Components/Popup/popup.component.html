@@ -1,0 +1,10 @@
+<div class="modal product_view {{isOpen ? 'show' : ''}}">
+  <div class="modal-overlay"></div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content"><a (click)="close()" href="javascript:void(0);" class="close"><span class="fas fa-times"></span></a>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

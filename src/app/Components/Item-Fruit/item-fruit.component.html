@@ -1,0 +1,38 @@
+<div class="product-wrapper">
+  <div class="single-products text-center">
+    <div class="product-img">
+      <img src="{{itemData.imgSrc}}" alt="">
+      <div class="standard-area">
+        <img *ngIf="itemData.standard == 1" src="../../../assets/icons/VietGAP.png" alt="">
+        <img *ngIf="itemData.standard == 2" src="../../../assets/icons/GlobalGAP.png" alt="">
+      </div>
+    </div>
+    <div class="product-overlay" *ngIf="!hideOverlay">
+      <div class="overlay"></div>
+      <div class="product-overlay-content">
+        <a [routerLink]="['/my-cart']" class="btn btn-cart">
+          <i class="fa fa-shopping-cart"></i>
+        </a>
+        <a href="javascript:void(0);" (click)="showDetail()" class="btn btn-default add-to-cart">QUICK VIEW</a>
+      </div>
+    </div>
+  </div>
+  <div class="product-container">
+    <a [routerLink]="['/product', itemData.id]" class="">
+      <h6 class="product__title">{{itemData.title}}</h6>
+      <div class="cost">
+        <sup class="fas fa-dollar-sign"></sup> <span class="weight"> {{itemData.price | currency: 'symbol': ''}} <small>/kg</small></span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="stock">(In-Stock : {{itemData.inStock}})</span>
+        <p><i class="fab fa-pagelines"></i>&nbsp;&nbsp;{{itemData.supplier}}</p>
+      </div>
+      <div class="rating">
+        <span *ngFor="let item of Arr(5); index as i;">
+          <i *ngIf="isGreater(i+1, itemData.rating)" class="fas fa-star"></i>
+          <i *ngIf="isHalf(i+1, itemData.rating)" class="fas fa-star-half-alt"></i>
+          <i *ngIf="isLesser(i+1, itemData.rating)" class="far fa-star"></i>
+        </span>
+      </div>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div *ngIf="item" class="container product-detail-content">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{item.supplier}}</li>
+  </ol>
+  <div class="product-detail-header">
+    <div class="row">
+      <aside class="col-sm-3">
+        <div class="img-wrap"><img src="{{item.imgSrcFarm}}"></div>
+      </aside>
+      <article class="col-sm-9">
+        <h4 class="title">{{item.supplier}}</h4>
+        <div class="row mt-5">
+          <div class="col-sm-3">
+            <dl class="list-align">
+              <dt>Owner</dt>
+              <dd>{{item.owner}}</dd>
+            </dl>
+            <dl class="list-align">
+              <dt>Product</dt>
+              <dd>{{item.product}}</dd>
+            </dl>
+          </div>
+          <div class="col-sm-3">
+            <dl class="list-align">
+              <dt>Phone
+              </dt>
+              <dd><a class="phone" href="tel:+{{item.phone}}">{{item.phone}}</a></dd>
+            </dl>
+            <dl class="list-align">
+              <dt>Quantity provided</dt>
+              <dd>{{item.quantityProvided}}</dd>
+            </dl>
+          </div>
+          <div class="col-sm-6">
+            <dl class="list-align">
+              <dt>Address</dt>
+              <dd>{{item.address}}</dd>
+            </dl>
+            <dl class="list-align">
+              <dt>Arable land</dt>
+              <dd>{{item.arableLand}}</dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="product-detail-body">
+    <h4 class="mt-5 mb-3">Introduction</h4>
+    <p [innerHTML]="intro" *ngFor="let intro of item.introduction"></p>
+    <h4 class="mt-5 mb-3">Products</h4>
+    <div *ngIf="hasRelatedProduct(item.relatedProduct)" class="product-detail-items row">
+      <app-item-fruit [hideOverlay]="true" *ngFor="let product of item.relatedProduct" [itemData]="product" class="col-md-6 col-xl-3"></app-item-fruit>
+      <div class="col-md-12 text-center mb-5 mt-5">
+        <button class="btn" type="submit">view more</button>
+      </div>
+    </div>
+  </div>
+</div>

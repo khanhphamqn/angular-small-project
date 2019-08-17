@@ -1,0 +1,181 @@
+<div class="container product-content">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/']">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Fruits Category</li>
+  </ol>
+  <section class="section-main bg padding-top-sm">
+    <div class="row row-sm">
+      <aside class="col-md-3">
+        <form id="product-filter" class="card-filter">
+          <article *ngFor="let item of Sidebar;" class="card-group-item {{item.className}}">
+            <ng-container *ngIf="item.type === 'radio'">
+              <header class="card-header">
+                <h6 class="title">{{item.categoryName}}</h6>
+              </header>
+              <div *ngFor="let category of item.categories;" class="outer">
+                <div *ngIf="category.typeName" class="card-header-title" [ngClass]="{'is-open': category.isOpen}"
+                  accordion>
+                  <a href="javascript:void(0);">
+                    <i class="icon-action fa fa-chevron-up"></i>
+                    <h6 class="title">{{category.typeName}}<span class="float-right mr-2">{{category.total}}</span></h6>
+                  </a>
+                </div>
+                <div class="card-body">
+                  <label *ngFor="let type of category.types;" class="form-check-box">
+                    <input (change)="onFilter()" class="form-check-input" value="{{type.value}}" name="{{type.name}}"
+                      type="checkbox">
+                    <span class="form-check-label"></span>
+                    <span>{{type.text}}<span *ngIf="type.total" class="float-right mr-3">{{type.total}}</span></span>
+                  </label>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="item.type === 'select'">
+              <header class="card-header">
+                <h6 class="title">{{item.categoryName}}</h6>
+              </header>
+              <div class="outer">
+                <div class="card-body">
+                  <div class="form-row">
+                    <div *ngFor="let select of item.categories;" class="form-group col-md-6">
+                      <select (change)="onFilter()" class="custom-select" name="{{select.name}}">
+                        <option *ngFor="let option of select.options;" value="{{option.value}}">{{option.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </article>
+        </form>
+      </aside>
+      <div class="col-md-9">
+        <div class="product-body">
+          <div class="product-body-header">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">{{title | async}}</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{count | async}} Items</li>
+            </ol>
+            <select (change)="onSort()" [(ngModel)]="sort" class="custom-select float-right mt-2" name="sort">
+              <option value="1">Newest</option>
+              <option value="2">Oldest</option>
+            </select>
+          </div>
+          <div class="product-body-items row">
+            <app-item-fruit *ngFor="let item of items | async;" [itemData]="item" (onShowDetail)="onShowDetail($event)"
+              class="col-md-6 col-xl-4"></app-item-fruit>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-ajax-loading *ngIf="appservice.isFetch$ | async"></app-ajax-loading>
+</div>
+<div class="container-fluid wrapper-sponsor">
+  <div class="container">
+    <app-sponsor></app-sponsor>
+  </div>
+</div>
+<app-popup *ngIf="popupItem" [isOpen]="isOpen" (onClose)="onClose($event)">
+  <div class="row">
+    <div class="preview col-md-5 d-flex align-items-center">
+      <div class="preview-pic">
+        <img src="{{popupItem.bigImgSrc}}" />
+      </div>
+    </div>
+    <div class="details col-md-7">
+      <h4 class="product-title ">{{popupItem.title}}</h4>
+      <div class="rating">
+        <span *ngFor="let item of Arr(5); index as i;">
+          <i *ngIf="isGreater(i+1, popupItem.rating)" class="fas fa-star"></i>
+          <i *ngIf="isHalf(i+1, popupItem.rating)" class="fas fa-star-half-alt"></i>
+          <i *ngIf="isLesser(i+1, popupItem.rating)" class="far fa-star"></i>
+        </span>
+        <span class="ml-2">({{popupItem.rating}})</span>
+      </div>
+      <div class="cost">
+        <sup class="fas fa-dollar-sign"></sup> <span
+          class="weight">{{popupItem.price | currency: 'symbol': ''}}<small>/kg</small></span>
+      </div>
+      <div class="row">
+        <div class="col-md-3 col-sm-4">
+          <img src="../../../assets/images/QR Code.png" />
+        </div>
+        <div class="details col-md-3 col-sm-4">
+          <dl class="list-align">
+            <dt>Barcode</dt>
+            <dd>{{popupItem.barcode}}</dd>
+          </dl>
+          <dl class="list-align">
+            <dt>Product Code</dt>
+            <dd>{{popupItem.productCode}}</dd>
+          </dl>
+        </div>
+        <div class="details col-md-6 col-sm-4">
+          <dl class="list-align">
+            <dt>Size</dt>
+            <dd>{{popupItem.size}}<span *ngIf="popupItem.size">/ Item</span><span *ngIf="!popupItem.size">&nbsp;</span></dd>
+          </dl>
+          <dl class="list-align">
+            <dt>Supplier</dt>
+            <dd>{{popupItem.supplier}}</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="row">
+        <div class="details col-md-3 col-sm-4">
+          <dl class="list-align">
+            <dt>Planting date</dt>
+            <dd>{{popupItem.plantingDate}}</dd>
+          </dl>
+        </div>
+        <div class="details col-md-3 col-sm-4">
+          <dl class="list-align">
+            <dt>Harveting date</dt>
+            <dd>{{popupItem.harvetingDate}}</dd>
+          </dl>
+        </div>
+        <div class="details col-md-3 col-sm-4">
+          <dl class="list-align">
+            <dt>Production</dt>
+            <dd>{{popupItem.production}}</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="row">
+        <dl class="list-align col-12">
+          <dt>Quantity: </dt>
+          <dd>
+            <ul class="quantity row">
+              <li class="d-flex align-items-center list col-6">
+                <button (click)="minus()" class="btn minus" type="button" name="button">
+                  -
+                </button>
+                <input type="text" class="form-control" (change)="update()" name="name" [(ngModel)]="quantity">
+                <button (click)="plus()" class="btn plus" type="button" name="button">
+                  +
+                </button>
+                <span>&nbsp;&nbsp;kg</span>
+              </li>
+              <li class="d-flex align-items-center list col-6">
+                <p>(In-Stock : {{popupItem.inStock}})</p>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+      </div>
+      <div class="row button-footer">
+        <div class="col-md-4 col-cart mb-2">
+          <button (click)="buyNow()" class="btn buy-now" type="button ">Buy Now</button>
+        </div>
+        <div class="col-md-4 col-cart mb-2">
+          <button (click)="addCart()" class="btn" type=" button ">Add Cart</button>
+        </div>
+        <div class="col-md-4 col-cart">
+          <button (click)="navigateToDetail()" class="btn" type="button">View Detail</button>
+        </div>
+      </div>
+      <app-ajax-loading *ngIf="isBuying"></app-ajax-loading>
+    </div>
+  </div>
+</app-popup>

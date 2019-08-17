@@ -1,0 +1,71 @@
+.header-main {
+  border-top: 1px #f2f2f2 solid;
+  .container{
+    padding: 25px 0;
+  }
+  .btn{
+    width: 60px;
+    height: 40px;
+    background-image: linear-gradient(89deg, #19a779, #74c947);
+    color: #fff;
+    border: none;
+  }
+  &.shadow-sm{
+    -webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  }
+  .brand-wrap{
+    .logo{
+      margin-right: 7px;
+      max-height: 42px;
+      display: inline-block;
+    }
+    .logo-text{
+      margin: 0;
+      display: inline-block;
+      vertical-align: middle;
+      color: #46ae5f;
+      font-size: 26px;
+      font-weight: bold;
+    }
+  }
+  .wrapper-shopping-cart{
+    position: relative;
+    .icon-wrap, .text-wrap {
+      display: inline-block;
+    }
+    .icon-wrap {
+      color: #a2a2a2;
+      font-size: 30px;
+    }
+    .text-wrap{
+      font-size: 14px;
+      color: #313131;
+      .number{
+        position: absolute;
+        top: 0;
+        left: 24px;
+        color: #fff;
+        background-color: #46ae5f;
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        padding: 0 6px;
+      }
+    }
+  }
+  .search-wrap {
+    .form-control {
+      width: 55%;
+    }
+    input, select {
+      height: 40px;
+    }
+    input {
+      color: #a7a7a7;
+    }
+    .custom-select{
+      color: #313131;
+    }
+  }
+}
